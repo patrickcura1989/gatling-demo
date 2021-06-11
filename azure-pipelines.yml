@@ -1,0 +1,31 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+jobs:
+ - job: 'GatlingDemo'
+   pool:
+      name: Hosted-Cura
+      demands: 'DEBUG -equals True'
+   timeoutInMinutes: 720
+
+   steps:
+
+   - task: CmdLine@2
+     inputs:
+       script: |
+         gradlew gatlingRun-computerdatabase.BasicSimulation
+     displayName: 'Run Gatling Demo Performance Test'
+
+   - task: PublishPipelineArtifact@1
+     inputs:
+       targetPath: build\reports\gatling
+       artifact: reports
+     condition: always()  
+     displayName: Publish JMeter HTML Reports
+
+     
+
