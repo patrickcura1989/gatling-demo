@@ -48,12 +48,14 @@ class BasicSimulation extends Simulation {
     )
     .exec { session =>
       validDataWriter.println(
-        session("symbol").as[String] + ","
-          + 10.0/session("value").as[String].replace("$","").toFloat + ","
-          + session("dividend_Ex_Date").as[String] + ","
+        session("companyName").as[String].replace(",","") + ","
+          + session("symbol").as[String] + ","
           + 10.0/session("value").as[String].replace("$","").toFloat * session("dividend_Rate").as[String].toFloat + ","
+          + session("dividend_Ex_Date").as[String] + ","
+          + session("payment_Date").as[String] + ","
           + session("value").as[String].replace("$","") + ","
-          + session("dividend_Rate").as[String]
+          + session("dividend_Rate").as[String] + ","
+          + 10.0/session("value").as[String].replace("$","").toFloat
       )
       session
     }
